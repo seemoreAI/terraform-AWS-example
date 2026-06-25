@@ -1,7 +1,7 @@
 # AWS credentials and configuration
 v-access-key = ""
 v-secret-key = ""
-v-region     = "eu-central-1" # Пример: "eu-central-1" или друга по ваш избор
+v-region     = "eu-north-1" # Пример: "eu-central-1" или друга по ваш избор
 
 # EC2 instance configuration
 v-ami-image     = "ami-0aba19e56f3eaec05" # Пример: Ubuntu AMI ID за избрания регион
