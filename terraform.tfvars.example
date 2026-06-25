@@ -1,0 +1,17 @@
+# AWS credentials and configuration
+v-access-key = ""
+v-secret-key = ""
+v-region     = "eu-central-1" # Пример: "eu-central-1" или друга по ваш избор
+
+# EC2 instance configuration
+v-ami-image     = "ami-0aba19e56f3eaec05" # Пример: Ubuntu AMI ID за избрания регион
+v-instance-type = "t2.micro"
+v-instance-key  = "terraform-key" # Името на вашия key pair в AWS
+
+# Networking
+v-count = 3
+do1-cidr = [
+  "10.10.1.0/24",
+  "10.10.2.0/24",
+  "10.10.3.0/24"
+]
