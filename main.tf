@@ -82,11 +82,30 @@ resource "aws_security_group" "do1-pub-sg" {
   }
 }
 
+# Generate a private key
+resource "tls_private_key" "do1-key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+# Create AWS Key Pair
+resource "aws_key_pair" "do1-key-pair" {
+  key_name   = var.v-instance-key
+  public_key = tls_private_key.do1-key.public_key_openssh
+}
+
+# Save private key to a file locally
+resource "local_file" "do1-private-key" {
+  content         = tls_private_key.do1-key.private_key_pem
+  filename        = "${path.module}/terraform-key.pem"
+  file_permission = "0600"
+}
+
 resource "aws_instance" "do1-server" {
   count                  = var.v-count
   ami                    = var.v-ami-image
   instance_type          = var.v-instance-type
-  key_name               = var.v-instance-key
+  key_name               = aws_key_pair.do1-key-pair.key_name
   vpc_security_group_ids = [aws_security_group.do1-pub-sg.id]
   subnet_id              = aws_subnet.do1-snet.*.id[count.index]
   tags = {
@@ -99,7 +118,7 @@ resource "aws_instance" "do1-server" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("terraform-key.pem")
+      private_key = tls_private_key.do1-key.private_key_pem
       host        = self.public_ip
     }
   }
@@ -134,7 +153,7 @@ resource "aws_instance" "do1-server" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("terraform-key.pem")
+      private_key = tls_private_key.do1-key.private_key_pem
       host        = self.public_ip
     }
   }
@@ -150,12 +169,8 @@ resource "aws_instance" "do1-server" {
     connection {
       type        = "ssh"
       user        = "ubuntu"
-      private_key = file("terraform-key.pem")
+      private_key = tls_private_key.do1-key.private_key_pem
       host        = self.public_ip
     }
   }
 }
-
-
-
-

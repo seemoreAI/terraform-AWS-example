@@ -6,7 +6,7 @@ v-region     = "eu-north-1" # Пример: "eu-central-1" или друга п�
 # EC2 instance configuration
 v-ami-image     = "ami-0aba19e56f3eaec05" # Пример: Ubuntu AMI ID за избрания регион
 v-instance-type = "t3.small"
-v-instance-key  = "terraform-key" # Името на вашия key pair в AWS
+v-instance-key  = "terraform-key" # Името на вашия key pair който ще се създаде в AWS
 
 # Networking
 v-count = 3
